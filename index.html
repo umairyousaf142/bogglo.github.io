@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Love Calculator ❤️ — Calculate your love</title>
+  <meta name="description" content="A fun and romantic Love Calculator web app that calculates love score based on names.">
+  <meta name="keywords" content="Love Calculator, love score, romantic app, name match, HTML CSS JavaScript">
+  <meta name="author" content="All Bayjid (Bogglo)">
+  <meta property="og:title" content="Love Calculator ❤️ — Calculate your love">
+  <meta property="og:description" content="Playful web app to calculate love score based on names.">
+  <meta property="og:image" content="images/screenshot.jpg">
+  <meta property="og:url" content="https://bogglo.github.io/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+      background: linear-gradient(120deg, #ff758c, #ff7eb3);
+    }
+    h1 {
+      margin-top: 20px;
+      font-size: 2em;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 20px;
+      border-radius: 15px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 0 20px rgba(255,255,255,0.2);
+      position: relative;
+      z-index: 2;
+    }
+    input {
+      width: 90%;
+      padding: 12px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      outline: none;
+    }
+    button {
+      padding: 12px 20px;
+      margin-top: 10px;
+      font-size: 18px;
+      border: none;
+      background: #ff3366;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      width: 90%;
+    }
+    button:hover {
+      background: #ff0033;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 1.4em;
+      font-weight: bold;
+      min-height: 40px;
+      transition: transform 0.3s ease-in-out;
+    }
+    .result.animate {
+      transform: scale(1.2);
+    }
+    .heart {
+      font-size: 40px;
+      animation: heartbeat 1s infinite;
+    }
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.2); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    .floating-heart {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.8);
+      animation: floatUp linear infinite;
+      font-size: 20px;
+      z-index: 1;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>❤️ Love Calculator ❤️</h1>
+  <div class="container">
+    <input type="text" id="name1" placeholder="Enter your name">
+    <input type="text" id="name2" placeholder="Enter your partner's name">
+    <br>
+    <button onclick="calculateLove()">Calculate</button>
+    <div class="result" id="result"></div>
+    <div class="heart">💖</div>
+  </div>
+
+  <script>
+    function createHearts() {
+      const heart = document.createElement('div');
+      heart.classList.add('floating-heart');
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+      heart.innerHTML = '❤️';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+    setInterval(createHearts, 300);
+
+    function nameToNumber(str) {
+      let sum = 0;
+      for (let i = 0; i < str.length; i++) {
+        sum += str.charCodeAt(i);
+      }
+      return sum;
+    }
+
+    function calculateLove() {
+      const name1 = document.getElementById("name1").value.trim().toLowerCase();
+      const name2 = document.getElementById("name2").value.trim().toLowerCase();
+      const result = document.getElementById("result");
+
+      if (name1 === "" || name2 === "") {
+        result.innerHTML = "Please enter both names! 😄";
+        return;
+      }
+
+      let fixedValue = (nameToNumber(name1 + name2) % 101);
+      let currentValue = 0;
+
+      let interval = setInterval(() => {
+        currentValue++;
+        result.classList.add("animate");
+        result.innerHTML = `💞 Love Score: ${currentValue}%`;
+        setTimeout(() => result.classList.remove("animate"), 200);
+
+        if (currentValue >= fixedValue) {
+          clearInterval(interval);
+          result.innerHTML = `💞 Love Score between ${name1} & ${name2} is ${fixedValue}% ❤️`;
+        }
+      }, 30);
+    }
+  </script>
+
+</body>
+</html>
