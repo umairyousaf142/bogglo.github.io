@@ -39,7 +39,7 @@ A fun and romantic web app that calculates your love score based on names. Wheth
 
 ## ✨ Author
 
-Made with ❤️ by **All Bayjid (Bogglo)**  
+Made with ❤️ by **All Bayjid Bishwash (Bogglo)**  
 📧 GitHub: [https://github.com/bogglo](https://github.com/bogglo)
 
 ---
