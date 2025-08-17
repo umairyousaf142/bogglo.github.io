@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Love Calculator ❤️ — Calculate your love</title>
   <meta name="description" content="A fun and romantic Love Calculator web app that calculates love score based on names.">
-  <meta name="keywords" content="Love Calculator, love score, 
-What is love ❤? ,  Love quotes  , What is love in a relationship , Love romance , Best definition of love , Love you , I love you , love calculator , love calculator name , love calculator prank , love calculator by name and date of birth , calculated love meaning , calculator love test , calculator love test games , love test , love tester , love test quiz , love tester online , love test name , love test game , love test app , love test calculator , love tester free romantic app, name match, HTML CSS JavaScript">
+  <meta name="keywords" content="Love Calculator, love score, What is love ❤?, Love quotes, What is love in a relationship, Love romance, Best definition of love, Love you, I love you, love calculator, love calculator name, love calculator prank, love calculator by name and date of birth, calculated love meaning, calculator love test, calculator love test games, love test, love tester, love test quiz, love tester online, love test name, love test game, love test app, love test calculator, love tester free romantic app, name match, HTML CSS JavaScript">
   <meta name="author" content="All Bayjid Bishwash (Bogglo)">
   <meta property="og:title" content="Love Calculator ❤️ — Calculate your love">
   <meta property="og:description" content="Playful web app to calculate love score based on names.">
@@ -38,6 +37,15 @@ What is love ❤? ,  Love quotes  , What is love in a relationship , Love romanc
       position: relative;
       z-index: 2;
     }
+    label {
+      display: block;
+      margin-bottom: 4px;
+      text-align: left;
+      margin-left: 5%;
+      color: #fff;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
     input {
       width: 90%;
       padding: 12px;
@@ -46,21 +54,32 @@ What is love ❤? ,  Love quotes  , What is love in a relationship , Love romanc
       border-radius: 10px;
       font-size: 18px;
       outline: none;
+      color: #222;
+      background: rgba(255,255,255,0.90);
+    }
+    input:focus {
+      background: #fff;
+      box-shadow: 0 0 0 2px #ff758c88;
     }
     button {
       padding: 12px 20px;
       margin-top: 10px;
       font-size: 18px;
       border: none;
-      background: #ff3366;
-      color: white;
+      background: #b10030; /* Higher contrast */
+      color: #fff;
       border-radius: 10px;
       cursor: pointer;
       transition: 0.3s;
       width: 90%;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      letter-spacing: 0.5px;
     }
-    button:hover {
-      background: #ff0033;
+    button:hover, button:focus {
+      background: #7a0020;
+      outline: 2px solid #fff;
+      outline-offset: 2px;
     }
     .result {
       margin-top: 20px;
@@ -68,6 +87,8 @@ What is love ❤? ,  Love quotes  , What is love in a relationship , Love romanc
       font-weight: bold;
       min-height: 40px;
       transition: transform 0.3s ease-in-out;
+      color: #fff;
+      text-shadow: 0 1px 4px #b10030a0;
     }
     .result.animate {
       transform: scale(1.2);
@@ -75,6 +96,7 @@ What is love ❤? ,  Love quotes  , What is love in a relationship , Love romanc
     .heart {
       font-size: 40px;
       animation: heartbeat 1s infinite;
+      filter: drop-shadow(0 1px 4px #b1003080);
     }
     @keyframes heartbeat {
       0% { transform: scale(1); }
@@ -89,6 +111,8 @@ What is love ❤? ,  Love quotes  , What is love in a relationship , Love romanc
       animation: floatUp linear infinite;
       font-size: 20px;
       z-index: 1;
+      user-select: none;
+      pointer-events: none;
     }
     @keyframes floatUp {
       0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
@@ -103,26 +127,32 @@ What is love ❤? ,  Love quotes  , What is love in a relationship , Love romanc
       text-align: center;
       font-size: 14px;
       z-index: 10;
+      pointer-events: none;
     }
-
     .footer-link a {
-      color: white;
+      color: #fff;
       text-decoration: none;
       padding: 8px 16px;
       background: rgba(255, 255, 255, 0.2);
       border-radius: 20px;
       animation: pulse 2s infinite;
       transition: background 0.3s;
+      pointer-events: auto;
     }
-
-    .footer-link a:hover {
+    .footer-link a:hover, .footer-link a:focus {
       background: rgba(255, 255, 255, 0.4);
+      outline: 2px solid #fff;
+      outline-offset: 2px;
     }
-
     @keyframes pulse {
       0% { transform: scale(1); opacity: 0.8; }
       50% { transform: scale(1.1); opacity: 1; }
       100% { transform: scale(1); opacity: 0.8; }
+    }
+    /* For better accessibility, allow keyboard navigation for button and links */
+    button:focus, a:focus {
+      outline: 2px solid #fff;
+      outline-offset: 2px;
     }
   </style>
 </head>
@@ -130,15 +160,17 @@ What is love ❤? ,  Love quotes  , What is love in a relationship , Love romanc
 
   <h1>❤️ Love Calculator ❤️</h1>
   <div class="container">
-    <input type="text" id="name1" placeholder="Enter your name">
-    <input type="text" id="name2" placeholder="Enter your partner's name">
-    <br>
-    <button onclick="calculateLove()">Calculate</button>
-    <div class="result" id="result"></div>
-    <div class="heart">💖</div>
+    <label for="name1">Your Name:</label>
+    <input type="text" id="name1" placeholder="Enter your name" autocomplete="off" aria-label="Your name">
+    <label for="name2">Partner's Name:</label>
+    <input type="text" id="name2" placeholder="Enter your partner's name" autocomplete="off" aria-label="Partner's name">
+    <button onclick="calculateLove()" id="calculateBtn" aria-label="Calculate love score">Calculate</button>
+    <div class="result" id="result" aria-live="polite"></div>
+    <div class="heart" aria-hidden="true">💖</div>
   </div>
 
   <script>
+    // Floating hearts background
     function createHearts() {
       const heart = document.createElement('div');
       heart.classList.add('floating-heart');
@@ -150,6 +182,7 @@ What is love ❤? ,  Love quotes  , What is love in a relationship , Love romanc
     }
     setInterval(createHearts, 300);
 
+    // Love calculation logic
     function nameToNumber(str) {
       let sum = 0;
       for (let i = 0; i < str.length; i++) {
@@ -183,11 +216,19 @@ What is love ❤? ,  Love quotes  , What is love in a relationship , Love romanc
         }
       }, 30);
     }
+
+    // Keyboard accessibility: Enter key triggers calculation
+    document.getElementById("name2").addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("calculateBtn").click();
+      }
+    });
   </script>
 
   <!-- Footer with animated link -->
   <footer class="footer-link">
-    <a href="https://bogglo.github.io/memory-game/" target="_blank">🎮 Play Memory Game</a>
+    <a href="https://bogglo.github.io/memory-game/" target="_blank" rel="noopener">🎮 Play Memory Game</a>
   </footer>
 
 </body>
